@@ -178,11 +178,10 @@ where
 mod tests {
     use super::*;
     use crate::solver::linesearch::MoreThuenteLineSearch;
-    use crate::{test_solver_sphere, test_trait_impl};
     use crate::testfunctions::{sphere, sphere_derivative};
+    use crate::{test_solver_sphere, test_trait_impl};
     use approx::assert_relative_eq;
     use ndarray::{array, Array1, Array2};
-
 
     type Operator = MinimalNoOperator;
 

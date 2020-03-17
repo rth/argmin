@@ -103,5 +103,4 @@ mod tests {
         steepest_descent,
         SteepestDescent<MoreThuenteLineSearch<Vec<f64>>>
     );
-
 }
