@@ -67,13 +67,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::testfunctions::rosenbrock;
-    use crate::{test_solver_rosenbrock, test_trait_impl};
-    use approx::assert_relative_eq;
-    use argmin_core::finitediff::*;
-    use ndarray::{array, Array1, Array2};
+    use crate::test_trait_impl;
 
     test_trait_impl!(landweber, Landweber);
-
-    test_solver_rosenbrock!(landweber, Landweber::new(0.001), 200);
 }

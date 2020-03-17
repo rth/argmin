@@ -43,43 +43,42 @@ macro_rules! test_trait_impl {
 
 #[cfg(test)]
 #[macro_export]
-macro_rules! test_solver_rosenbrock {
+macro_rules! test_solver_sphere {
     ($n:ident, $solver:expr, $n_iter:expr) => {
         paste::item! {
             #[test]
             #[allow(non_snake_case)]
-            fn [<test_rosenbrock_ $n>]() {
+            fn [<test_sphere_ $n>]() {
 
                #[derive(Clone, Default, Serialize, Deserialize)]
-               struct Rosenbrock {
-                   a: f64,
-                   b: f64,
+               struct Sphere {
                }
 
-               impl ArgminOp for Rosenbrock {
+               impl ArgminOp for Sphere {
                    type Param = Array1<f64>;
                    type Output = f64;
                    type Hessian = Array2<f64>;
                    type Jacobian = ();
 
                    fn apply(&self, p: &Self::Param) -> Result<Self::Output, Error> {
-                       Ok(rosenbrock(&p.to_vec(), self.a, self.b))
+                       Ok(sphere(&p.to_vec()))
                    }
 
                    fn gradient(&self, p: &Self::Param) -> Result<Self::Param, Error> {
-                       Ok((*p).forward_diff(&|x| rosenbrock(&x.to_vec(), self.a, self.b)))
+                       let grad = Array1::from(sphere_derivative(&p.to_vec()));
+                       Ok(grad)
                    }
                }
-                let cost = Rosenbrock { a: 1.0, b: 100.0 };
+                let cost = Sphere {};
 
                 // Define initial parameter vector
-                let init_param: Array1<f64> = array![-1.2, 1.2];
+                let init_param: Array1<f64> = array![-1.0, 1.0];
 
                 let solver = $solver;
                 let res = Executor::new(cost, solver, init_param)
                     .max_iters($n_iter)
                     .run().unwrap();
-                assert_relative_eq!(res.state.param, array![1.0, 1.0], epsilon=1e-4);
+                assert_relative_eq!(res.state.param, array![0.0, 0.0], epsilon=1e-4);
 
             }
         }
