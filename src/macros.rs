@@ -78,7 +78,8 @@ macro_rules! test_solver_sphere {
                 let res = Executor::new(cost, solver, init_param)
                     .max_iters($n_iter)
                     .run().unwrap();
-                assert_relative_eq!(res.state.param, array![0.0, 0.0], epsilon=1e-4);
+
+                assert_abs_diff_eq!(res.state.param, array![0.0, 0.0]);
 
             }
         }

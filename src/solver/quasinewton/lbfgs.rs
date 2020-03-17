@@ -180,7 +180,7 @@ mod tests {
     use crate::solver::linesearch::MoreThuenteLineSearch;
     use crate::testfunctions::{sphere, sphere_derivative};
     use crate::{test_solver_sphere, test_trait_impl};
-    use approx::assert_relative_eq;
+    use approx::assert_abs_diff_eq;
     use ndarray::{array, Array1, Array2};
 
     type Operator = MinimalNoOperator;
