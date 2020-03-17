@@ -1,4 +1,4 @@
-// Copyright 2018-2020 argmin developers
+// Copyright 2019-2020 argmin developers
 //
 // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
@@ -67,7 +67,13 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_trait_impl;
+    use crate::testfunctions::rosenbrock;
+    use crate::{test_solver_rosenbrock, test_trait_impl};
+    use approx::assert_relative_eq;
+    use argmin_core::finitediff::*;
+    use ndarray::{array, Array1, Array2};
 
     test_trait_impl!(landweber, Landweber);
+
+    test_solver_rosenbrock!(landweber, Landweber::new(0.001), 200);
 }
