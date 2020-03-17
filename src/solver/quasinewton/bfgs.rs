@@ -169,9 +169,20 @@ where
 mod tests {
     use super::*;
     use crate::solver::linesearch::MoreThuenteLineSearch;
-    use crate::test_trait_impl;
+    use crate::testfunctions::{sphere, sphere_derivative};
+    use crate::{test_solver_sphere, test_trait_impl};
+    use approx::assert_abs_diff_eq;
+    use ndarray::{array, Array1, Array2};
+    use std::f64;
 
     type Operator = MinimalNoOperator;
 
     test_trait_impl!(bfgs, BFGS<Operator, MoreThuenteLineSearch<Operator>>);
+
+    test_solver_sphere!(
+        bfgs,
+        BFGS::new(Array2::eye(2), MoreThuenteLineSearch::new()),
+        200,
+        f64::EPSILON
+    );
 }
