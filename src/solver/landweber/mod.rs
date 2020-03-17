@@ -67,7 +67,13 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_trait_impl;
+    use crate::testfunctions::{sphere, sphere_derivative};
+    use crate::{test_solver_sphere, test_trait_impl};
+    use approx::assert_abs_diff_eq;
+    use ndarray::{array, Array1, Array2};
+    use std::f64;
 
     test_trait_impl!(landweber, Landweber);
+
+    test_solver_sphere!(landweber, Landweber::new(0.01), 1000, f64::EPSILON.sqrt());
 }

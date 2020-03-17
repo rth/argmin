@@ -44,7 +44,7 @@ macro_rules! test_trait_impl {
 #[cfg(test)]
 #[macro_export]
 macro_rules! test_solver_sphere {
-    ($n:ident, $solver:expr, $n_iter:expr) => {
+    ($n:ident, $solver:expr, $max_iter:expr, $epsilon:expr) => {
         paste::item! {
             #[test]
             #[allow(non_snake_case)]
@@ -68,6 +68,7 @@ macro_rules! test_solver_sphere {
                        let grad = Array1::from(sphere_derivative(&p.to_vec()));
                        Ok(grad)
                    }
+
                }
                 let cost = Sphere {};
 
@@ -76,10 +77,11 @@ macro_rules! test_solver_sphere {
 
                 let solver = $solver;
                 let res = Executor::new(cost, solver, init_param)
-                    .max_iters($n_iter)
+                    .max_iters($max_iter)
                     .run().unwrap();
 
-                assert_abs_diff_eq!(res.state.param, array![0.0, 0.0]);
+                // Check that the global minimum is reached
+                assert_abs_diff_eq!(res.state.param, array![0.0, 0.0], epsilon=$epsilon);
 
             }
         }

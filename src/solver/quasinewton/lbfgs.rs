@@ -182,10 +182,16 @@ mod tests {
     use crate::{test_solver_sphere, test_trait_impl};
     use approx::assert_abs_diff_eq;
     use ndarray::{array, Array1, Array2};
+    use std::f64;
 
     type Operator = MinimalNoOperator;
 
     test_trait_impl!(lbfgs, LBFGS<Operator, MoreThuenteLineSearch<Operator>>);
 
-    test_solver_sphere!(lbfgs, LBFGS::new(MoreThuenteLineSearch::new(), 7), 200);
+    test_solver_sphere!(
+        lbfgs,
+        LBFGS::new(MoreThuenteLineSearch::new(), 7),
+        200,
+        f64::EPSILON
+    );
 }
